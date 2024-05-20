@@ -61,10 +61,63 @@ const App = () => {
     },
   ];
 
+  const userPosts = [
+    {
+      firstName: 'Verneri',
+      lastName: 'Lopperi',
+      location: 'Boston, MA',
+      likes: 1201,
+      comments: 24,
+      bookmarks: 55,
+      id: 1,
+    },
+    {
+      firstName: 'Jennifer',
+      lastName: 'Wilson',
+      location: 'Worcester, MA',
+      likes: 1301,
+      comments: 25,
+      bookmarks: 70,
+      id: 2,
+    },
+    {
+      firstName: 'Adam',
+      lastName: 'Ondra',
+      location: 'Worcester, MA',
+      likes: 1501,
+      comments: 225,
+      bookmarks: 90,
+      id: 3,
+    },
+    {
+      firstName: 'Nata',
+      lastName: 'Vates',
+      location: 'New York, NY',
+      likes: 120,
+      comments: 15,
+      bookmarks: 20,
+      id: 4,
+    },
+    {
+      firstName: 'Nicholas',
+      lastName: 'Namoradze',
+      location: 'Berlin, Germany',
+      likes: 2000,
+      comments: 32,
+      bookmarks: 22,
+      id: 5,
+    },
+  ];
+
   const userStoriesPageSize = 4;
   const [userStoriesCurrentPage, setUserStoriesCurrentPage] = useState(1);
   const [userStoriesRenderedData, setUserStoriesRenderedData] = useState([]);
   const [isLoadingUserStories, setIsLoadingUserStories] = useState(false);
+
+  const userPostsPageSize = 4;
+  const [userPostsCurrentPage, setUserPostsCurrentPage] = useState(1);
+  const [userPostsRenderedData, setUserPostsRenderedData] = useState([]);
+  const [isLoadingUserPosts, setIsLoadingUserPosts] = useState(false);
 
   const pagination = (database, currentPage, pageSize) => {
     //console.log('currentpage', currentPage);
