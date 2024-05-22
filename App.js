@@ -125,7 +125,7 @@ const App = () => {
   const [userStoriesRenderedData, setUserStoriesRenderedData] = useState([]);
   const [isLoadingUserStories, setIsLoadingUserStories] = useState(false);
 
-  const userPostsPageSize = 4;
+  const userPostsPageSize = 2;
   const [userPostsCurrentPage, setUserPostsCurrentPage] = useState(1);
   const [userPostsRenderedData, setUserPostsRenderedData] = useState([]);
   const [isLoadingUserPosts, setIsLoadingUserPosts] = useState(false);
@@ -142,11 +142,14 @@ const App = () => {
 
   useEffect(() => {
     setIsLoadingUserStories(true);
-
     const getInitialData = pagination(userStories, 1, userStoriesPageSize);
     setUserStoriesRenderedData(getInitialData);
-
     setIsLoadingUserStories(false);
+
+    setIsLoadingUserPosts(true);
+    const getInitialDataPosts = pagination(userPosts, 1, userPostsPageSize);
+    setUserPostsRenderedData(getInitialDataPosts);
+    setIsLoadingUserPosts(false);
   }, []);
 
   return (
@@ -204,8 +207,25 @@ const App = () => {
               </View>
             </>
           }
+          onEndReachedThreshold={0.5} //when half of the downloaded content is loaded we do something
+          onEndReached={() => {
+            if (isLoadingUserPosts) {
+              return; //if already loading then do nothing
+            }
+            setIsLoadingUserPosts(true);
+            const contentToAppend = pagination(
+              userPosts,
+              userPostsCurrentPage + 1,
+              userPostsPageSize,
+            );
+            if (contentToAppend.length > 0) {
+              setUserPostsCurrentPage(userPostsCurrentPage + 1);
+              setUserPostsRenderedData(prev => [...prev, ...contentToAppend]);
+            }
+            setIsLoadingUserPosts(false);
+          }}
           showsVerticalScrollIndicator={false}
-          data={userPosts}
+          data={userPostsRenderedData}
           renderItem={({item}) => (
             <View style={globalStyle.userPostContainer}>
               <UserPost
