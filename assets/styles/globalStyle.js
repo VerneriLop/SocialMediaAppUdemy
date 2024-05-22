@@ -32,6 +32,12 @@ const globalStyle = StyleSheet.create({
     marginTop: 20,
     marginHorizontal: 20,
   },
+  userPostContainer: {
+    marginHorizontal: 24,
+    borderBottomWidth: 1,
+    paddingBottom: 20,
+    borderBottomColor: '#EFF2F6',
+  },
 });
 
 export default globalStyle;
