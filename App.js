@@ -5,7 +5,7 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Dimensions,
+  //Dimensions,
 } from 'react-native';
 import Title from './components/Title/Title';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
@@ -131,8 +131,8 @@ const App = () => {
   const [userPostsRenderedData, setUserPostsRenderedData] = useState([]);
   const [isLoadingUserPosts, setIsLoadingUserPosts] = useState(false);
 
-  const [screenData, setScreenData] = useState(Dimensions.get('screen'));
-  console.log(screenData);
+  //const [screenData, setScreenData] = useState(Dimensions.get('screen'));
+  //console.log(screenData);
 
   const pagination = (database, currentPage, pageSize) => {
     //console.log('currentpage', currentPage);
@@ -155,21 +155,21 @@ const App = () => {
     setUserPostsRenderedData(getInitialDataPosts);
     setIsLoadingUserPosts(false);
 
-    Dimensions.addEventListener('change', result => {
+    /*Dimensions.addEventListener('change', result => {
       setScreenData(result.screen);
       console.log('RESULT', result);
-    });
+    });*/
   }, []);
 
   return (
     <SafeAreaView>
-      <View
+      {/*<View
         style={{
           backgroundColor: 'red',
           height: screenData.height / 2,
           width: screenData.width / 2,
         }}
-      />
+      />*/}
       <View>
         <FlatList
           ListHeaderComponent={
