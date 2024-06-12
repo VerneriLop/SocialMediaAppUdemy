@@ -8,6 +8,7 @@ import {
   //Dimensions,
   Switch,
   Platform,
+  StatusBar,
 } from 'react-native';
 import Title from './components/Title/Title';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
@@ -16,6 +17,7 @@ import globalStyle from './assets/styles/globalStyle';
 import UserStory from './components/UserStory/UserStory';
 import UserPost from './components/UserPost/UserPost';
 import {scaleFontSize} from './assets/styles/scaling';
+import {NavigationContainer} from '@react-navigation/native';
 
 const App = () => {
   const userStories = [
@@ -134,7 +136,7 @@ const App = () => {
   const [userPostsRenderedData, setUserPostsRenderedData] = useState([]);
   const [isLoadingUserPosts, setIsLoadingUserPosts] = useState(false);
 
-  const [isOn, setIsOn] = useState(false);
+  //const [isOn, setIsOn] = useState(false);
   console.log(Platform);
 
   //const [screenData, setScreenData] = useState(Dimensions.get('screen'));
@@ -168,32 +170,34 @@ const App = () => {
   }, []);
 
   return (
-    <SafeAreaView>
-      {/*<View
+    <NavigationContainer>
+      <SafeAreaView>
+        <StatusBar backgroundColor={'red'} barStyle={'light-content'} />
+        {/*<View
         style={{
           backgroundColor: 'red',
           height: screenData.height / 2,
           width: screenData.width / 2,
         }}
       />*/}
-      <View>
-        <FlatList
-          ListHeaderComponent={
-            <>
-              <View style={globalStyle.header}>
-                <Title title="Let’s Explore" />
-                <TouchableOpacity style={globalStyle.messageIcon}>
-                  <FontAwesomeIcon
-                    icon={faEnvelope}
-                    size={scaleFontSize(20)}
-                    color="#898DAE"
-                  />
-                  <View style={globalStyle.messageNumberContainer}>
-                    <Text style={globalStyle.messageNumber}>2</Text>
-                  </View>
-                </TouchableOpacity>
-              </View>
-              <View
+        <View>
+          <FlatList
+            ListHeaderComponent={
+              <>
+                <View style={globalStyle.header}>
+                  <Title title="Let’s Explore" />
+                  <TouchableOpacity style={globalStyle.messageIcon}>
+                    <FontAwesomeIcon
+                      icon={faEnvelope}
+                      size={scaleFontSize(20)}
+                      color="#898DAE"
+                    />
+                    <View style={globalStyle.messageNumberContainer}>
+                      <Text style={globalStyle.messageNumber}>2</Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+                {/*<View
                 style={{
                   flex: 1,
                   flexDirection: 'row',
@@ -212,79 +216,80 @@ const App = () => {
                   }
                   onValueChange={value => setIsOn(value)}
                 />
-              </View>
-              <View style={globalStyle.userStoryContainer}>
-                <FlatList
-                  onEndReachedThreshold={0.5}
-                  onEndReached={() => {
-                    if (isLoadingUserStories) {
-                      return;
-                    }
-                    setIsLoadingUserStories(true);
-                    const contentToAppend = pagination(
-                      userStories,
-                      userStoriesCurrentPage + 1,
-                      userStoriesPageSize,
-                    );
-                    if (contentToAppend.length > 0) {
-                      setUserStoriesCurrentPage(userStoriesCurrentPage + 1);
-                      setUserStoriesRenderedData(prev => [
-                        ...prev,
-                        ...contentToAppend,
-                      ]);
-                    }
-                    setIsLoadingUserStories(false);
-                  }}
-                  horizontal
-                  showsHorizontalScrollIndicator={false}
-                  data={userStoriesRenderedData}
-                  renderItem={({item}) => (
-                    <UserStory
-                      key={'userStory' + item.id}
-                      firstName={item.firstName}
-                      profileImage={item.profileImage}
-                    />
-                  )}
+                </View>*/}
+                <View style={globalStyle.userStoryContainer}>
+                  <FlatList
+                    onEndReachedThreshold={0.5}
+                    onEndReached={() => {
+                      if (isLoadingUserStories) {
+                        return;
+                      }
+                      setIsLoadingUserStories(true);
+                      const contentToAppend = pagination(
+                        userStories,
+                        userStoriesCurrentPage + 1,
+                        userStoriesPageSize,
+                      );
+                      if (contentToAppend.length > 0) {
+                        setUserStoriesCurrentPage(userStoriesCurrentPage + 1);
+                        setUserStoriesRenderedData(prev => [
+                          ...prev,
+                          ...contentToAppend,
+                        ]);
+                      }
+                      setIsLoadingUserStories(false);
+                    }}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    data={userStoriesRenderedData}
+                    renderItem={({item}) => (
+                      <UserStory
+                        key={'userStory' + item.id}
+                        firstName={item.firstName}
+                        profileImage={item.profileImage}
+                      />
+                    )}
+                  />
+                </View>
+              </>
+            }
+            onEndReachedThreshold={0.5} //when half of the downloaded content is loaded we do something
+            onEndReached={() => {
+              if (isLoadingUserPosts) {
+                return; //if already loading then do nothing
+              }
+              setIsLoadingUserPosts(true);
+              const contentToAppend = pagination(
+                userPosts,
+                userPostsCurrentPage + 1,
+                userPostsPageSize,
+              );
+              if (contentToAppend.length > 0) {
+                setUserPostsCurrentPage(userPostsCurrentPage + 1);
+                setUserPostsRenderedData(prev => [...prev, ...contentToAppend]);
+              }
+              setIsLoadingUserPosts(false);
+            }}
+            showsVerticalScrollIndicator={false}
+            data={userPostsRenderedData}
+            renderItem={({item}) => (
+              <View style={globalStyle.userPostContainer}>
+                <UserPost
+                  firstName={item.firstName}
+                  lastName={item.lastName}
+                  image={item.image}
+                  likes={item.likes}
+                  comments={item.comments}
+                  bookmarks={item.bookmarks}
+                  profileImage={item.profileImage}
+                  location={item.location}
                 />
               </View>
-            </>
-          }
-          onEndReachedThreshold={0.5} //when half of the downloaded content is loaded we do something
-          onEndReached={() => {
-            if (isLoadingUserPosts) {
-              return; //if already loading then do nothing
-            }
-            setIsLoadingUserPosts(true);
-            const contentToAppend = pagination(
-              userPosts,
-              userPostsCurrentPage + 1,
-              userPostsPageSize,
-            );
-            if (contentToAppend.length > 0) {
-              setUserPostsCurrentPage(userPostsCurrentPage + 1);
-              setUserPostsRenderedData(prev => [...prev, ...contentToAppend]);
-            }
-            setIsLoadingUserPosts(false);
-          }}
-          showsVerticalScrollIndicator={false}
-          data={userPostsRenderedData}
-          renderItem={({item}) => (
-            <View style={globalStyle.userPostContainer}>
-              <UserPost
-                firstName={item.firstName}
-                lastName={item.lastName}
-                image={item.image}
-                likes={item.likes}
-                comments={item.comments}
-                bookmarks={item.bookmarks}
-                profileImage={item.profileImage}
-                location={item.location}
-              />
-            </View>
-          )}
-        />
-      </View>
-    </SafeAreaView>
+            )}
+          />
+        </View>
+      </SafeAreaView>
+    </NavigationContainer>
   );
 };
 
