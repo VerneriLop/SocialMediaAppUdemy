@@ -7,7 +7,7 @@ import {
   View,
   //Dimensions,
   //Switch,
-  Platform,
+  //Platform,
   StatusBar,
 } from 'react-native';
 import Title from '../../components/Title/Title';
@@ -18,8 +18,9 @@ import UserStory from '../../components/UserStory/UserStory';
 import UserPost from '../../components/UserPost/UserPost';
 import {scaleFontSize} from '../../assets/styles/scaling';
 import globalStyle from '../../assets/styles/globalStyle';
+import {Routes} from '../../navigation/Routes';
 
-const Home = () => {
+const Home = ({navigation}) => {
   const userStories = useMemo(
     () => [
       {
@@ -143,7 +144,7 @@ const Home = () => {
   const [isLoadingUserPosts, setIsLoadingUserPosts] = useState(false);
 
   //const [isOn, setIsOn] = useState(false);
-  console.log(Platform);
+  //console.log(Platform);
 
   //const [screenData, setScreenData] = useState(Dimensions.get('screen'));
   //console.log(screenData);
@@ -191,7 +192,11 @@ const Home = () => {
             <>
               <View style={style.header}>
                 <Title title="Let’s Explore" />
-                <TouchableOpacity style={style.messageIcon}>
+                <TouchableOpacity
+                  style={style.messageIcon}
+                  onPress={() => {
+                    navigation.navigate(Routes.Profile);
+                  }}>
                   <FontAwesomeIcon
                     icon={faEnvelope}
                     size={scaleFontSize(20)}
