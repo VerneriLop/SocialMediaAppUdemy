@@ -6,6 +6,7 @@ import Profile from '../screens/Profile/Profile';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {Text, View} from 'react-native';
+import ProfileTabTitle from '../components/ProfileTabTitle/ProfileTabTitle';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -37,13 +38,52 @@ const Tab3 = () => {
 
 export const ProfileTabsNavigator = () => {
   return (
-    <ProfileTabs.Navigator>
-      <ProfileTabs.Screen name={'Tab1'} component={Tab1} />
-      <ProfileTabs.Screen name={'Tab2'} component={Tab2} />
-      <ProfileTabs.Screen name={'Tab3'} component={Tab3} />
+    <ProfileTabs.Navigator
+      screenOptions={{
+        tabBarIndicatorStyle: {
+          backgroundColor: 'transparent',
+        },
+        tabBarStyle: {
+          zIndex: 0,
+          elevation: 0,
+        },
+      }}>
+      <ProfileTabs.Screen
+        name={'Tab1'}
+        options={{
+          tabBarLabel: getTabBarLabel('Photos'),
+        }}
+        component={Tab1}
+      />
+      <ProfileTabs.Screen
+        name={'Tab2'}
+        options={{
+          tabBarLabel: getTabBarLabel('Videos'),
+        }}
+        component={Tab2}
+      />
+      <ProfileTabs.Screen
+        name={'Tab3'}
+        options={{
+          tabBarLabel: getTabBarLabel('Saved'),
+        }}
+        component={Tab3}
+      />
     </ProfileTabs.Navigator>
   );
 };
+
+// Siirretään tabBarLabel-funktio komponentin ulkopuolelle
+const getTabBarLabel = title => {
+  return ({focused}) => <ProfileTabTitle isFocused={focused} title={title} />;
+};
+
+//ProfileTabTitle cannot be inside ProfileTabsNavigator straight
+//because otherwise it will cause a new function to be created
+//on every render, leading to performance issues and unnecessary re-renders.
+/*const getTabBarLabel = title => {
+  return () => <ProfileTabTitle title={title} />;
+};*/
 
 const MainMenuNavigation = () => {
   return (
