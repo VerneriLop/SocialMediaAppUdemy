@@ -5,36 +5,12 @@ import Home from '../screens/Home/Home';
 import Profile from '../screens/Profile/Profile';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import {Text, View} from 'react-native';
 import ProfileTabTitle from '../components/ProfileTabTitle/ProfileTabTitle';
+import ProfileTabContent from '../components/ProfileTabContent/ProfileTabContent';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 const ProfileTabs = createMaterialTopTabNavigator();
-
-const Tab1 = () => {
-  return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>This is tab 1</Text>
-    </View>
-  );
-};
-
-const Tab2 = () => {
-  return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>This is tab 2</Text>
-    </View>
-  );
-};
-
-const Tab3 = () => {
-  return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>This is tab 3</Text>
-    </View>
-  );
-};
 
 export const ProfileTabsNavigator = () => {
   return (
@@ -53,21 +29,21 @@ export const ProfileTabsNavigator = () => {
         options={{
           tabBarLabel: getTabBarLabel('Photos'),
         }}
-        component={Tab1}
+        component={ProfileTabContent}
       />
       <ProfileTabs.Screen
         name={'Tab2'}
         options={{
           tabBarLabel: getTabBarLabel('Videos'),
         }}
-        component={Tab2}
+        component={ProfileTabContent}
       />
       <ProfileTabs.Screen
         name={'Tab3'}
         options={{
           tabBarLabel: getTabBarLabel('Saved'),
         }}
-        component={Tab3}
+        component={ProfileTabContent}
       />
     </ProfileTabs.Navigator>
   );
